@@ -33,4 +33,7 @@ test = [
 	"one",
 	"two",
 	"three"
-]
+
+[floats]
+pi = 3.14
+minus = -10.001

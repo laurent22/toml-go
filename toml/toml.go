@@ -148,7 +148,7 @@ func ParseDate(s string) (time.Time, int, bool) {
 
 func ParseNumber(s string) (string, int, bool) {
 	numberString := ""
-	allowedChars := "0123456789."
+	allowedChars := "0123456789.-"
 	for i := 0; i < len(s); i++ {
 		c := s[i]
 		if !strings.Contains(allowedChars, string(c)) {
@@ -201,10 +201,6 @@ func ParseArray(s string) ([]Value, int, bool) {
 	return output, endIndex, true
 }
 
-func (this Value) AsArray() []Value {
-	return this.asArray
-}
-
 func (this Value) RawNoComment() string {
 	index := strings.Index(this.raw, "#")
 	if index < 0 { return this.raw }
@@ -240,7 +236,7 @@ func ParseString(s string) (string, int, bool) {
 			
 			if escape {
 				if c == '0' {
-					
+					output += "\x00"
 				} else if (c == 't') {
 					output += "\t"
 				} else if (c == 'n') {
@@ -263,14 +259,28 @@ func ParseString(s string) (string, int, bool) {
 	return output, index, true	
 }
 
+func (this Value) AsArray() []Value {
+	return this.asArray
+}
+
 func (this Value) AsString() string {
 	return this.asString
 }
 
-func (this Value) AsInt() (int64, bool) {
-	output, err := strconv.ParseInt(this.RawNoComment(), 10, 64)
-	if err != nil { return 0, false }
-	return output, true
+func (this Value) AsInt() int64 {
+	return this.asInt
+}
+
+func (this Value) AsFloat() float64 {
+	return this.asFloat
+}
+
+func (this Value) AsBool() bool {
+	return this.asBool	
+}
+
+func (this Value) AsDate() time.Time {
+	return this.asDate
 }
 
 func (this *Node) CreateChildren_() {
@@ -295,7 +305,16 @@ func (this *Node) HasChildren() bool {
 }
 
 func (this Value) String() string {
-	if this.kind == kindString { return "\"" + this.asString + "\"" }
+	if this.kind == kindString {
+		s := this.asString
+		s = strings.Replace(s, "\n", "\\n", -1)
+		s = strings.Replace(s, "\x00", "\\0", -1)
+		s = strings.Replace(s, "\t", "\\t", -1)
+		s = strings.Replace(s, "\r", "\\r", -1)
+		s = strings.Replace(s, "\"", "\\\"", -1)
+		s = strings.Replace(s, "\\", "\\\\", -1)
+		return "\"" + s + "\""
+	}
 	if this.kind == kindInt { return strconv.FormatInt(this.asInt, 10) }
 	if this.kind == kindFloat { return strconv.FormatFloat(this.asFloat, 'f', -1, 64); }
 	if this.kind == kindBool { if this.asBool { return "true" } else { return "false" } }
@@ -489,9 +508,7 @@ func (this Parser) Parse(tomlString string) Document {
 	}
 	
 	output.root.LoadValues()
-	
-	//fmt.Println(output.root)
-	
+		
 	return output
 }
 

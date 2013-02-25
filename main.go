@@ -6,8 +6,14 @@ import (
 )
 
 func main() {
-	var test toml.Parser
-	doc := test.ParseFile("example.toml")
+	// Create a Toml parser
+	var parser toml.Parser
+	
+	// Parse a file
+	doc := parser.ParseFile("example.toml")
+	
+	// Or parse a string directly:
+	// doc := parser.Parse(someTomlString)
 	
 	var value toml.Value
 	var ok bool
@@ -24,11 +30,39 @@ func main() {
 	// Get an array
 	
 	value, _ = doc.GetValue("clients.data")
-	array := value.AsArray()
-	fmt.Println(array[0].AsArray()[0].AsString())
+	fmt.Println(value.AsArray()[0].AsArray()[0].AsString())
 	
 	// Get an int
 	
 	value, _ = doc.GetValue("database.connection_max")
 	fmt.Println(value.AsInt())
+	
+	// Get a float
+	
+	value, _ = doc.GetValue("floats.pi")
+	fmt.Println(value.AsFloat())
+	
+	// Get a negative float
+	
+	value, _ = doc.GetValue("floats.minus")
+	fmt.Println(value.AsFloat())
+	
+	// Get a boolean
+	
+	value, _ = doc.GetValue("database.enabled")
+	fmt.Println(value.AsBool())
+	
+	// Get a date
+	
+	value, _ = doc.GetValue("owner.dob")
+	fmt.Println(value.AsDate())
+	
+	// Get a section
+	
+	section, _ := doc.GetSection("owner")
+	fmt.Println(section)
+	
+	// Get title
+	value, _ = doc.GetValue("title")
+	fmt.Println(value.AsString())
 }
