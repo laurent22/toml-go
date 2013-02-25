@@ -1,7 +1,7 @@
 TOML-GO
 =======
 
-An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml)
+An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml). For simplicity, everything is currently contained in `toml.go`.
 
 Usage
 -----
