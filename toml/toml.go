@@ -5,9 +5,10 @@ import (
 	"io/ioutil"
 	"fmt"
 	"strconv"
+	"time"
 )
 
-type Kind int32
+type Kind int
 
 const (
 	kindRoot = 1
@@ -36,6 +37,12 @@ type Node struct {
 type Value struct {
 	raw string
 	kind Kind
+	asBool bool
+	asInt int64
+	asFloat float64
+	asString string
+	asArray []Value
+	asDate time.Time
 }
 
 type Document struct {
@@ -68,63 +75,134 @@ func CleanRawValue(s string) string {
 	}
 	
 	return s
-	
 }
 
-// func ParseValue(s string) Value, bool {
-// 	var v Value
-// 	v.raw = s
-// 	if s == "true" || s == "false" {
-// 		v.kind = kindBool
-// 	}
-// 	if s[0] == '"' && s[len(s) - 1] == '"' {
-// 		v.kind = kindString
-// 	}
-// 	if 
-// 	return v
-// }
+func ParseValue(s string) (Value, int, bool) {
+	var v Value
+	if len(s) == 0 { return v, 0, false }
+	
+	if strings.Index(s, "true") == 0 || strings.Index(s, "false") == 0 {
+		v.kind = kindBool
+		v.asBool = strings.Index(s, "true") == 0
+		index := 4
+		if !v.asBool { index = 5 }
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	if s[0] == '"' {
+		parsed, index, ok := ParseString(s)
+		if !ok { return v, 0, false }
+		v.asString = parsed
+		v.kind = kindString
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	if s[0] == '[' {
+		parsed, index, ok := ParseArray(s)
+		if !ok { return v, 0, false }
+		v.asArray = parsed
+		v.kind = kindArray
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	if len(s) >= 20 && s[19] == 'Z' {
+		parsed, index, ok := ParseDate(s)
+		if !ok { return v, 0, false }
+		v.asDate = parsed
+		v.kind = kindDate
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	numString, index, ok := ParseNumber(s)
+	if !ok { return v, 0, false }
+	
+	parsedInt, err := strconv.ParseInt(numString, 10, 64)
+	if err == nil {
+		v.asInt = parsedInt
+		v.kind = kindInt
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	parsedFloat, err := strconv.ParseFloat(numString, 64)
+	if err == nil {
+		v.asFloat = parsedFloat
+		v.kind = kindFloat
+		v.raw = s[0:index]
+		return v, index, true
+	}
+	
+	return v, 0, false
+}
 
-func ParseArray(s string) ([]Value, bool) {
-	var output []Value
-	if len(s) <= 0 { return output, false }
+func ParseDate(s string) (time.Time, int, bool) {
+	timeString := s[0:20]
+	output, err := time.Parse(time.RFC3339, timeString)
+	if err != nil { return output, 0, false }
+	return output, 20, true
+}
 
-	//current := output
-	//openingCount := 0
-	state := 0 // 1 = start, 2 = inside value, 3 = end value
-	for i := 1; i < len(s); i++ {
+func ParseNumber(s string) (string, int, bool) {
+	numberString := ""
+	allowedChars := "0123456789."
+	for i := 0; i < len(s); i++ {
 		c := s[i]
+		if !strings.Contains(allowedChars, string(c)) {
+			break
+		}
+		numberString += string(c)
+	}
+	if len(numberString) <= 0 { return "", 0, false }
+	return numberString, len(numberString), true
+}
 
+func ParseArray(s string) ([]Value, int, bool) {
+	var output []Value
+	if len(s) <= 0 { return output, 0, false }
+
+	endIndex := 0
+	state := 0 // 0 = start, 1 = before value, 2 = end value
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+						
 		if state == 0 {
-			if c != '[' { return output, false }
+			if c != '[' { return output, endIndex, false }
 			state = 1
 			continue
 		}
 		
 		if state == 1  {
-			
-			
-			state = 2
-			
+			v, index, ok := ParseValue(s[i:len(s)])
+			if !ok {
+				continue
+			} else {
+				output = append(output, v)
+				i = i + index - 1 
+				state = 2
+			}
 		}
-		// if c == '[' {
-		// 	openingCount++
-		// }
-		// if c == ']' {
-		// 	if openingCount == 0 { // Found the closing bracket
-		// 		var value Value
-		// 		value.raw = s[1:i]
-		// 		append(output, value)
-		// 	} else {
-		// 		openingCount--
-		// 	}
-		// }
-	}	
+		
+		if state == 2 {
+			if c == ',' {
+				state = 1
+				continue
+			}
+			if c == ']' {
+				endIndex = i + 1
+				break
+			}
+		}
+	}
 	
-	return output, true
+	return output, endIndex, true
 }
 
-func (this Value) AsArray() ([]Value, bool) {
-	return ParseArray(this.raw)
+func (this Value) AsArray() []Value {
+	return this.asArray
 }
 
 func (this Value) RawNoComment() string {
@@ -133,9 +211,10 @@ func (this Value) RawNoComment() string {
 	return strings.Trim(this.raw[0:index], " \t\n\r")
 }
 
-func ParseString(s string) (string, bool) {
-	if len(s) <= 0 { return "", false }
+func ParseString(s string) (string, int, bool) {
+	if len(s) <= 0 { return "", 0, false }
 	
+	index := 0
 	escape := false
 	output := ""
 	state := 0 // 0 = left, 1 = inside
@@ -143,7 +222,7 @@ func ParseString(s string) (string, bool) {
 		c := s[i]
 		
 		if state == 0 {
-			if c != '"' { return "", false }
+			if c != '"' { return "", 0, false }
 			state = 1
 			continue
 		}
@@ -155,6 +234,7 @@ func ParseString(s string) (string, bool) {
 			} 
 			
 			if c == '"' && !escape {
+				index = i + 1
 				break
 			}
 			
@@ -170,7 +250,7 @@ func ParseString(s string) (string, bool) {
 				} else if (c == '\\') {
 					output += "\\"
 				} else {
-					return "", false // Or panic?
+					return "", 0, false // Or panic?
 				}
 				escape = false
 				continue
@@ -179,12 +259,12 @@ func ParseString(s string) (string, bool) {
 			output += string(c)
 		}
 	}
-	
-	return output, true	
+		
+	return output, index, true	
 }
 
-func (this Value) AsString() (string, bool) {
-	return ParseString(this.raw)
+func (this Value) AsString() string {
+	return this.asString
 }
 
 func (this Value) AsInt() (int64, bool) {
@@ -214,6 +294,24 @@ func (this *Node) HasChildren() bool {
 	return this.children != nil
 }
 
+func (this Value) String() string {
+	if this.kind == kindString { return "\"" + this.asString + "\"" }
+	if this.kind == kindInt { return strconv.FormatInt(this.asInt, 10) }
+	if this.kind == kindFloat { return strconv.FormatFloat(this.asFloat, 'f', -1, 64); }
+	if this.kind == kindBool { if this.asBool { return "true" } else { return "false" } }
+	if this.kind == kindDate { return this.asDate.Format(time.RFC3339) }
+	if this.kind == kindArray {
+		array := this.asArray
+		output := ""
+		for i := 0; i < len(array); i++ {
+			if output != "" { output += ", " }
+			output += array[i].String()
+		}
+		return "[" + output + "]"
+	}
+	return "undefined"
+}
+
 func (this *Node) String() string {
 	output := ""
 		
@@ -235,11 +333,7 @@ func (this *Node) String() string {
 	}
 	
 	if (this.kind == kindValue) {
-		asInt, _ := this.value.AsInt()
-		asString, _ := this.value.AsString()
-		fmt.Println(this.name, "as int", asInt)
-		fmt.Println(this.name, "as string", asString)
-		output += this.name + " = " + this.value.raw
+		output += this.name + " = " + this.value.String()
 		output += "\n"
 	}
 	
@@ -275,21 +369,63 @@ func NewDocument() Document {
 	return output;
 }
 
-// func (this Document) Get(path string) (*Node, bool) {
-// 	names := strings.Split(path, ".")
-// 	current := this.root
-// 	for i := 0; i < len(names); i++ {
-// 		node, ok := current.children[names[i]]
-// 		if !ok { return current, false }
-// 		current = node
-// 	}
-// 	return current, true
-// }
-
 func (this Parser) ParseKey(line string) (string, int) {
 	index := strings.Index(line, "=")
 	if index < 0 { return "", -1 }
 	return strings.Trim(line[0:index], " \t\n\r"), index
+}
+
+func (this *Node) LoadValues() {
+	this.value, _, _ = ParseValue(this.value.raw)
+	
+	for _, node := range this.children {
+		node.LoadValues()
+	}
+}
+
+func (this *Node) GetSection(path string) (*Node, bool) {
+	names := strings.Split(path, ".")
+	current := this
+	nameIndex := 0
+	
+	for {
+		for _, node := range current.children {
+			 if node.kind != kindSection { continue } 
+			 if node.name == names[nameIndex] {
+			 	current = node
+			 	nameIndex++	
+			 	if nameIndex >= len(names) {
+			 		return current, true
+			 	}
+			 	break
+			 }
+		}
+	}
+	
+	return current, false
+}
+
+func (this *Node) GetValue(path string) (Value, bool) {
+	var output Value
+	names := strings.Split(path, ".")
+	if len(names) == 1 {
+		node, ok := this.Child(path)
+		if !ok { return output, false }
+		return node.value, true
+	}
+	
+	sectionPath := strings.Join(names[0:len(names) - 1], ".")
+	section, ok := this.GetSection(sectionPath)
+	if !ok { return output, false }
+	return section.GetValue(names[len(names) - 1])
+}
+
+func (this Document) GetSection(path string) (*Node, bool) {
+	return this.root.GetSection(path)	
+}
+
+func (this Document) GetValue(path string) (Value, bool) {
+	return this.root.GetValue(path)
 }
 
 func (this Parser) Parse(tomlString string) Document {
@@ -352,7 +488,9 @@ func (this Parser) Parse(tomlString string) Document {
 		}
 	}
 	
-	fmt.Println(output.String())
+	output.root.LoadValues()
+	
+	//fmt.Println(output.root)
 	
 	return output
 }
