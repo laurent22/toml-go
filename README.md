@@ -3,6 +3,8 @@ TOML-GO
 
 An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml). For simplicity, everything is currently contained in `toml.go`.
 
+This parser was last tested on TOML version [00f11b019406531c8c7989846b1c1a54e9b8d8bb](https://github.com/mojombo/toml/tree/00f11b019406531c8c7989846b1c1a54e9b8d8bb)
+
 Usage
 -----
 
