@@ -49,7 +49,7 @@ type Document struct {
 	root *Node
 }
 
-func CleanRawValue(s string) string {
+func cleanRawValue(s string) string {
 	s = strings.Trim(s, " \t\n\r")
 	if len(s) == 0 { return "" }
 	
@@ -77,7 +77,7 @@ func CleanRawValue(s string) string {
 	return s
 }
 
-func ParseValue(s string) (Value, int, bool) {
+func parseValue(s string) (Value, int, bool) {
 	var v Value
 	if len(s) == 0 { return v, 0, false }
 	
@@ -91,7 +91,7 @@ func ParseValue(s string) (Value, int, bool) {
 	}
 	
 	if s[0] == '"' {
-		parsed, index, ok := ParseString(s)
+		parsed, index, ok := parseString(s)
 		if !ok { return v, 0, false }
 		v.asString = parsed
 		v.kind = kindString
@@ -100,7 +100,7 @@ func ParseValue(s string) (Value, int, bool) {
 	}
 	
 	if s[0] == '[' {
-		parsed, index, ok := ParseArray(s)
+		parsed, index, ok := parseArray(s)
 		if !ok { return v, 0, false }
 		v.asArray = parsed
 		v.kind = kindArray
@@ -109,7 +109,7 @@ func ParseValue(s string) (Value, int, bool) {
 	}
 	
 	if len(s) >= 20 && s[19] == 'Z' {
-		parsed, index, ok := ParseDate(s)
+		parsed, index, ok := parseDate(s)
 		if !ok { return v, 0, false }
 		v.asDate = parsed
 		v.kind = kindDate
@@ -117,7 +117,7 @@ func ParseValue(s string) (Value, int, bool) {
 		return v, index, true
 	}
 	
-	numString, index, ok := ParseNumber(s)
+	numString, index, ok := parseNumber(s)
 	if !ok { return v, 0, false }
 	
 	parsedInt, err := strconv.ParseInt(numString, 10, 64)
@@ -139,14 +139,14 @@ func ParseValue(s string) (Value, int, bool) {
 	return v, 0, false
 }
 
-func ParseDate(s string) (time.Time, int, bool) {
+func parseDate(s string) (time.Time, int, bool) {
 	timeString := s[0:20]
 	output, err := time.Parse(time.RFC3339, timeString)
 	if err != nil { return output, 0, false }
 	return output, 20, true
 }
 
-func ParseNumber(s string) (string, int, bool) {
+func parseNumber(s string) (string, int, bool) {
 	numberString := ""
 	allowedChars := "0123456789.-"
 	for i := 0; i < len(s); i++ {
@@ -160,7 +160,7 @@ func ParseNumber(s string) (string, int, bool) {
 	return numberString, len(numberString), true
 }
 
-func ParseArray(s string) ([]Value, int, bool) {
+func parseArray(s string) ([]Value, int, bool) {
 	var output []Value
 	if len(s) <= 0 { return output, 0, false }
 
@@ -176,7 +176,7 @@ func ParseArray(s string) ([]Value, int, bool) {
 		}
 		
 		if state == 1  {
-			v, index, ok := ParseValue(s[i:len(s)])
+			v, index, ok := parseValue(s[i:len(s)])
 			if !ok {
 				continue
 			} else {
@@ -201,13 +201,7 @@ func ParseArray(s string) ([]Value, int, bool) {
 	return output, endIndex, true
 }
 
-func (this Value) RawNoComment() string {
-	index := strings.Index(this.raw, "#")
-	if index < 0 { return this.raw }
-	return strings.Trim(this.raw[0:index], " \t\n\r")
-}
-
-func ParseString(s string) (string, int, bool) {
+func parseString(s string) (string, int, bool) {
 	if len(s) <= 0 { return "", 0, false }
 	
 	index := 0
@@ -299,19 +293,19 @@ func (this Value) AsDate() time.Time {
 	return this.asDate
 }
 
-func (this *Node) CreateChildren_() {
+func (this *Node) createChildren() {
 	if this.children != nil { return }
 	this.children = make(map[string]*Node)
 }
 
-func (this *Node) Child(name string) (*Node, bool) {
+func (this *Node) child(name string) (*Node, bool) {
 	if !this.HasChildren() { return nil, false }
 	node, ok := this.children[name]
 	return node, ok
 }
 
-func (this *Node) SetChild(name string, node *Node) {
-	this.CreateChildren_()
+func (this *Node) setChild(name string, node *Node) {
+	this.createChildren()
 	this.children[name] = node
 	node.parent = this
 }
@@ -404,17 +398,17 @@ func NewDocument() Document {
 	return output;
 }
 
-func (this Parser) ParseKey(line string) (string, int) {
+func (this Parser) parseKey(line string) (string, int) {
 	index := strings.Index(line, "=")
 	if index < 0 { return "", -1 }
 	return strings.Trim(line[0:index], " \t\n\r"), index
 }
 
-func (this *Node) LoadValues() {
-	this.value, _, _ = ParseValue(this.value.raw)
+func (this *Node) loadValues() {
+	this.value, _, _ = parseValue(this.value.raw)
 	
 	for _, node := range this.children {
-		node.LoadValues()
+		node.loadValues()
 	}
 }
 
@@ -444,7 +438,7 @@ func (this *Node) GetValue(path string) (Value, bool) {
 	var output Value
 	names := strings.Split(path, ".")
 	if len(names) == 1 {
-		node, ok := this.Child(path)
+		node, ok := this.child(path)
 		if !ok { return output, false }
 		return node.value, true
 	}
@@ -489,12 +483,12 @@ func (this Parser) Parse(tomlString string) Document {
 			current := output.root
 			for j := 0; j < len(names); j++ {
 				name := names[j]
-				node, ok := current.Child(name)
+				node, ok := current.child(name)
 				if !ok {
 					section := NewNodePointer()
 					section.name = name
 					section.kind = kindSection
-					current.SetChild(name, section)
+					current.setChild(name, section)
 					current = section
 				} else {
 					current = node
@@ -506,7 +500,7 @@ func (this Parser) Parse(tomlString string) Document {
 		
 		// VALUE
 		
-		key, index := this.ParseKey(line)
+		key, index := this.parseKey(line)
 		if index < 0 {
 			if currentValue != nil {
 				currentValue.value.raw += line
@@ -516,14 +510,14 @@ func (this Parser) Parse(tomlString string) Document {
 		} else {
 			node := NewNodePointer()
 			node.name = key
-			node.value.raw = CleanRawValue(line[index + 1:len(line)])
+			node.value.raw = cleanRawValue(line[index + 1:len(line)])
 			node.kind = kindValue
-			currentSection.SetChild(key, node)
+			currentSection.setChild(key, node)
 			currentValue = node
 		}
 	}
 	
-	output.root.LoadValues()
+	output.root.loadValues()
 		
 	return output
 }
