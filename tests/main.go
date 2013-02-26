@@ -26,6 +26,11 @@ func assertIntEqual(desc string, a int, b int) {
 	fmt.Print(".")
 }
 
+func assertFloatEqual(desc string, a float64, b float64) {
+	if a != b { panic("Failed: " + desc + " - " + strconv.FormatFloat(a, 'f', -1, 64) + " != " + strconv.FormatFloat(b, 'f', -1, 64)) }
+	fmt.Print(".")
+}
+
 func assertStringEqual(desc string, a string, b string) {
 	if a != b { panic("Failed: " + desc + " - " + a + " != " + b) }
 	fmt.Print(".")
@@ -65,6 +70,12 @@ func main() {
 	
 	v, ok = doc.GetValue("database.connection_max")
 	assertIntEqual("Int is valid", v.AsInt(), 5000)
+	
+	v, ok = doc.GetValue("floats.pi")
+	assertFloatEqual("Float is valid", v.AsFloat(), 3.14)
+	
+	v, ok = doc.GetValue("floats.minus")
+	assertFloatEqual("Negative float is valid", v.AsFloat(), -10.001)
 	
 	v, ok = doc.GetValue("database.ports")
 	assertIntEqual("Array size if correct", len(v.AsArray()), 3)
