@@ -267,7 +267,23 @@ func (this Value) AsString() string {
 	return this.asString
 }
 
-func (this Value) AsInt() int64 {
+func (this Value) AsInt() int {
+	return int(this.asInt)
+}
+
+func (this Value) AsInt8() int8 {
+	return int8(this.asInt)
+}
+
+func (this Value) AsInt16() int16 {
+	return int16(this.asInt)
+}
+
+func (this Value) AsInt32() int32 {
+	return int32(this.asInt)
+}
+
+func (this Value) AsInt64() int64 {
 	return this.asInt
 }
 
