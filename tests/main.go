@@ -55,6 +55,9 @@ func main() {
 	v, ok = doc.GetValue("doesntexist")
 	assertFalse("Value doesn't exist", ok)
 	
+	v, ok = doc.GetValue("database.EnaBLED")
+	assertFalse("Is case sensitive", ok)
+	
 	v, ok = doc.GetValue("database.enabled")
 	assertTrue("Boolean is valid", v.AsBool())
 	
@@ -103,4 +106,16 @@ func main() {
 	assertStringEqual("Array content is correct", v.AsArray()[0].AsString(), "one")
 	assertStringEqual("Array content is correct", v.AsArray()[1].AsString(), "two")
 	assertStringEqual("Array content is correct", v.AsArray()[2].AsString(), "three")
+	
+	v, ok = doc.GetValue("multilinearray.testwithcomment")
+	assertIntEqual("Array size is correct", len(v.AsArray()), 2)
+	assertIntEqual("Array content is correct", v.AsArray()[0].AsInt(), 1)
+	assertIntEqual("Array content is correct", v.AsArray()[1].AsInt(), 2)
+	
+	v, ok = doc.GetValue("strings.allInOne")
+	assertTrue("Is valid", ok)
+	assertStringEqual("String with special characters is ok", v.AsString(), "zero: \x00 tab: \t newline: \n cr: \r quote: \" backslash: \\")	
+	
+	//v, ok = doc.GetValue("strings.invalidEscape")
+	//assertFalse("Is invalid", ok)
 }

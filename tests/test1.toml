@@ -35,7 +35,15 @@ test = [
 	"two",
 	"three"
 ]
+testwithcomment = [
+  1,
+  2, # this is ok
+]
 
 [floats]
 pi = 3.14
 minus = -10.001
+
+[strings]
+allInOne = "zero: \0 tab: \t newline: \n cr: \r quote: \" backslash: \\"
+invalidEscape = "not\good"

@@ -218,16 +218,6 @@ func parseString(s string) (string, int, bool) {
 		}
 		
 		if state == 1 {
-			if c == '\\' {
-				escape = true
-				continue
-			} 
-			
-			if c == '"' && !escape {
-				index = i + 1
-				break
-			}
-			
 			if escape {
 				if c == '0' {
 					output += "\x00"
@@ -235,6 +225,8 @@ func parseString(s string) (string, int, bool) {
 					output += "\t"
 				} else if (c == 'n') {
 					output += "\n"
+				} else if (c == 'r') {
+					output += "\r"
 				} else if (c == '"') {
 					output += "\""
 				} else if (c == '\\') {
@@ -244,6 +236,16 @@ func parseString(s string) (string, int, bool) {
 				}
 				escape = false
 				continue
+			}
+			
+			if c == '\\' {
+				escape = true
+				continue
+			} 
+			
+			if c == '"' && !escape {
+				index = i + 1
+				break
 			}
 			
 			output += string(c)
