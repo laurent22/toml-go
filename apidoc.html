@@ -1,0 +1,409 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+
+	
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "./toml"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#index">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+			</div>
+		</div>
+		
+	
+		<h2 id="index">Index</h2>
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+		<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#Document">type Document</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewDocument">func NewDocument() Document</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetSection">func (this Document) GetSection(path string) (*Node, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetValue">func (this Document) GetValue(path string) (Value, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.String">func (this Document) String() string</a></dd>
+				
+			
+				
+				<dd><a href="#Kind">type Kind</a></dd>
+				
+				
+			
+				
+				<dd><a href="#Node">type Node</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewNodePointer">func NewNodePointer() *Node</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Node.FullName">func (this *Node) FullName() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Node.GetSection">func (this *Node) GetSection(path string) (*Node, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Node.GetValue">func (this *Node) GetValue(path string) (Value, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Node.HasChildren">func (this *Node) HasChildren() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Node.String">func (this *Node) String() string</a></dd>
+				
+			
+				
+				<dd><a href="#Parser">type Parser</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Parser.Parse">func (this Parser) Parse(tomlString string) Document</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Parser.ParseFile">func (this Parser) ParseFile(tomlFilePath string) Document</a></dd>
+				
+			
+				
+				<dd><a href="#Value">type Value</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsArray">func (this Value) AsArray() []Value</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsBool">func (this Value) AsBool() bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsDate">func (this Value) AsDate() time.Time</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsFloat">func (this Value) AsFloat() float64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsInt">func (this Value) AsInt() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsInt16">func (this Value) AsInt16() int16</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsInt32">func (this Value) AsInt32() int32</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsInt64">func (this Value) AsInt64() int64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsInt8">func (this Value) AsInt8() int8</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsString">func (this Value) AsString() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.String">func (this Value) String() string</a></dd>
+				
+			
+			
+		</dl>
+
+		
+
+		
+			<h4>Package files</h4>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/target/toml.go">toml.go</a>
+			
+			</span>
+			</p>
+		
+	
+		
+		
+		
+		
+			
+			
+			<h2 id="Document">type <a href="/target/toml.go?s=549:587#L38">Document</a></h2>
+			<pre>type Document struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="NewDocument">func <a href="/target/toml.go?s=7680:7707#L384">NewDocument</a></h3>
+				<pre>func NewDocument() Document</pre>
+				
+				
+			
+
+			
+				
+				<h3 id="Document.GetSection">func (Document) <a href="/target/toml.go?s=9031:9089#L442">GetSection</a></h3>
+				<pre>func (this Document) GetSection(path string) (*Node, bool)</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetValue">func (Document) <a href="/target/toml.go?s=9135:9191#L446">GetValue</a></h3>
+				<pre>func (this Document) GetValue(path string) (Value, bool)</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.String">func (Document) <a href="/target/toml.go?s=7485:7521#L373">String</a></h3>
+				<pre>func (this Document) String() string</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Kind">type <a href="/target/toml.go?s=86:99#L1">Kind</a></h2>
+			<pre>type Kind int</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Node">type <a href="/target/toml.go?s=289:393#L19">Node</a></h2>
+			<pre>type Node struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="NewNodePointer">func <a href="/target/toml.go?s=7558:7585#L377">NewNodePointer</a></h3>
+				<pre>func NewNodePointer() *Node</pre>
+				
+				
+			
+
+			
+				
+				<h3 id="Node.FullName">func (*Node) <a href="/target/toml.go?s=7246:7281#L362">FullName</a></h3>
+				<pre>func (this *Node) FullName() string</pre>
+				
+				
+				
+			
+				
+				<h3 id="Node.GetSection">func (*Node) <a href="/target/toml.go?s=8159:8214#L405">GetSection</a></h3>
+				<pre>func (this *Node) GetSection(path string) (*Node, bool)</pre>
+				
+				
+				
+			
+				
+				<h3 id="Node.GetValue">func (*Node) <a href="/target/toml.go?s=8601:8654#L427">GetValue</a></h3>
+				<pre>func (this *Node) GetValue(path string) (Value, bool)</pre>
+				
+				
+				
+			
+				
+				<h3 id="Node.HasChildren">func (*Node) <a href="/target/toml.go?s=5680:5716#L303">HasChildren</a></h3>
+				<pre>func (this *Node) HasChildren() bool</pre>
+				
+				
+				
+			
+				
+				<h3 id="Node.String">func (*Node) <a href="/target/toml.go?s=6697:6730#L334">String</a></h3>
+				<pre>func (this *Node) String() string</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Parser">type <a href="/target/toml.go?s=259:285#L15">Parser</a></h2>
+			<pre>type Parser struct {
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="Parser.Parse">func (Parser) <a href="/target/toml.go?s=9234:9286#L450">Parse</a></h3>
+				<pre>func (this Parser) Parse(tomlString string) Document</pre>
+				
+				
+				
+			
+				
+				<h3 id="Parser.ParseFile">func (Parser) <a href="/target/toml.go?s=10667:10725#L515">ParseFile</a></h3>
+				<pre>func (this Parser) ParseFile(tomlFilePath string) Document</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="Value">type <a href="/target/toml.go?s=397:545#L27">Value</a></h2>
+			<pre>type Value struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="Value.AsArray">func (Value) <a href="/target/toml.go?s=4611:4646#L246">AsArray</a></h3>
+				<pre>func (this Value) AsArray() []Value</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsBool">func (Value) <a href="/target/toml.go?s=5139:5170#L278">AsBool</a></h3>
+				<pre>func (this Value) AsBool() bool</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsDate">func (Value) <a href="/target/toml.go?s=5201:5237#L282">AsDate</a></h3>
+				<pre>func (this Value) AsDate() time.Time</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsFloat">func (Value) <a href="/target/toml.go?s=5073:5108#L274">AsFloat</a></h3>
+				<pre>func (this Value) AsFloat() float64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt">func (Value) <a href="/target/toml.go?s=4744:4773#L254">AsInt</a></h3>
+				<pre>func (this Value) AsInt() int</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt16">func (Value) <a href="/target/toml.go?s=4873:4906#L262">AsInt16</a></h3>
+				<pre>func (this Value) AsInt16() int16</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt32">func (Value) <a href="/target/toml.go?s=4942:4975#L266">AsInt32</a></h3>
+				<pre>func (this Value) AsInt32() int32</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt64">func (Value) <a href="/target/toml.go?s=5011:5044#L270">AsInt64</a></h3>
+				<pre>func (this Value) AsInt64() int64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt8">func (Value) <a href="/target/toml.go?s=4807:4838#L258">AsInt8</a></h3>
+				<pre>func (this Value) AsInt8() int8</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsString">func (Value) <a href="/target/toml.go?s=4677:4712#L250">AsString</a></h3>
+				<pre>func (this Value) AsString() string</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.String">func (Value) <a href="/target/toml.go?s=5755:5788#L307">String</a></h3>
+				<pre>func (this Value) String() string</pre>
+				
+				
+				
+			
+		
+		</div>
+	
+
+	
+
+
+
+
+
+
+
