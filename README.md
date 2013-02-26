@@ -8,7 +8,7 @@ This parser was last tested on TOML version [00f11b019406531c8c7989846b1c1a54e9b
 Usage
 -----
 
-See [main.go](main.go) for some examples. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `As` accessor (eg. `AsArray()`, `AsInt()`, etc.).
+See [main.go](main.go) for some examples. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `As` accessors (eg. `AsArray()`, `AsInt()`, etc.).
 
 ```go
 // Create a Toml parser
@@ -27,7 +27,7 @@ var ok bool
 
 value, ok = doc.GetValue("servers.beta.ip")
 if !ok { // Optionally, you can check if the value exists or not
-  panic("value doesn't exists")
+  panic("value doesn't exist")
 } else {
   fmt.Println(value)
 }
