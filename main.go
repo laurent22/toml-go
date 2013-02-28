@@ -18,41 +18,42 @@ func main() {
 	var value toml.Value
 	var ok bool
 	
-	// Get a string:
+	// ==================================================
+	// Get some values:
+	// ==================================================
+	
+	fmt.Println(doc.GetString("servers.beta.ip"))
+	fmt.Println(doc.GetArray("clients.data"))
+	fmt.Println(doc.GetInt("doesntexist", 123)) // Optionally, a default value can be provided
+	fmt.Println(doc.GetFloat("floats.pi"))
+	fmt.Println(doc.GetBool("database.enabled"))
+	fmt.Println(doc.GetDate("owner.dob"))
+	
+	// ==================================================
+	// Or using the GetValue() / As<Type>() pattern:
+	// ==================================================
 	
 	value, ok = doc.GetValue("servers.beta.ip")
 	if !ok { // Optionally, you can check if the value exists or not
 		panic("value doesn't exists")
 	} else {
-		fmt.Println(value)
+		fmt.Println(value.AsString())
 	}
-	
-	// Get an array
 	
 	value, _ = doc.GetValue("clients.data")
 	fmt.Println(value.AsArray()[0].AsArray()[0].AsString())
 	
-	// Get an int
-	
 	value, _ = doc.GetValue("database.connection_max")
 	fmt.Println(value.AsInt())
-	
-	// Get a float
 	
 	value, _ = doc.GetValue("floats.pi")
 	fmt.Println(value.AsFloat())
 	
-	// Get a negative float
-	
 	value, _ = doc.GetValue("floats.minus")
 	fmt.Println(value.AsFloat())
 	
-	// Get a boolean
-	
 	value, _ = doc.GetValue("database.enabled")
 	fmt.Println(value.AsBool())
-	
-	// Get a date
 	
 	value, _ = doc.GetValue("owner.dob")
 	fmt.Println(value.AsDate())
@@ -63,6 +64,7 @@ func main() {
 	fmt.Println(section)
 	
 	// Get title
+	
 	value, _ = doc.GetValue("title")
 	fmt.Println(value.AsString())
 }

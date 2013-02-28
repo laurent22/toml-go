@@ -287,6 +287,14 @@ func (this Value) AsFloat() float64 {
 	return this.asFloat
 }
 
+func (this Value) AsFloat32() float32 {
+	return float32(this.asFloat)
+}
+
+func (this Value) AsFloat64() float64 {
+	return this.asFloat
+}
+
 func (this Value) AsBool() bool {
 	return this.asBool	
 }
