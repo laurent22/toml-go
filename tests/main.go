@@ -42,11 +42,13 @@ func assertTimeEqual(desc string, a time.Time, b time.Time) {
 }
 
 func main() {
+	// TEST 1
+	
 	var parser toml.Parser
 	doc := parser.ParseFile("test1.toml")
 	
 	var v toml.Value
-	var ok bool
+	var ok bool	
 	
 	v, ok = doc.GetValue("title")
 	assertTrue("Value exists", ok)
@@ -118,4 +120,40 @@ func main() {
 	
 	v, ok = doc.GetValue("strings.invalidEscape")
 	assertStringEqual("Is invalid", v.AsString(), "") // Currently, the parser returns an empty string for invalid strings
+	
+	// TEST 2
+	
+	doc = parser.ParseFile("test2.toml")
+	
+	v, ok = doc.GetValue("the.test_string")
+	assertStringEqual("String is correct", v.AsString(), "You'll hate me after this - #")
+	
+	v, ok = doc.GetValue("the.hard.test_array")
+	assertTrue("Is valid", ok)
+	assertIntEqual("Array size is correct", len(v.AsArray()), 2)
+	assertStringEqual("Array[0] is correct", v.AsArray()[0].AsString(), "] ")
+	assertStringEqual("Array[1] is correct", v.AsArray()[1].AsString(), " # ")
+	
+	v, ok = doc.GetValue("the.hard.test_array2")
+	assertTrue("Is valid", ok)
+	assertIntEqual("Array size is correct", len(v.AsArray()), 2)
+	assertStringEqual("Array[0] is correct", v.AsArray()[0].AsString(), "Test #11 ]proved that")
+	assertStringEqual("Array[1] is correct", v.AsArray()[1].AsString(), "Experiment #9 was a success")
+	
+	v, ok = doc.GetValue("the.hard.another_test_string")
+	assertStringEqual("String is correct", v.AsString(), " Same thing, but with a string #")
+	
+	v, ok = doc.GetValue("the.hard.harder_test_string")
+	assertStringEqual("String is correct", v.AsString(), " And when \"'s are in the string, along with # \"")
+	
+	_, ok = doc.GetSection("the.hard.bit#")
+	assertTrue("Section with special character exists", ok)
+	
+	v, ok = doc.GetValue("the.hard.bit#.what?")
+	assertStringEqual("String is correct", v.AsString(), "You don't think some user won't do that?")
+	
+	v, ok = doc.GetValue("the.hard.bit#.multi_line_array")
+	assertTrue("Is valid", ok)
+	assertIntEqual("Array size is correct", len(v.AsArray()), 1)
+	assertStringEqual("Array[0] is correct", v.AsArray()[0].AsString(), "]")
 }

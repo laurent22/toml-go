@@ -3,7 +3,7 @@ TOML-GO
 
 An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml). For simplicity, everything is currently contained in `toml.go`.
 
-This parser was last tested on TOML version [00f11b019406531c8c7989846b1c1a54e9b8d8bb](https://github.com/mojombo/toml/tree/00f11b019406531c8c7989846b1c1a54e9b8d8bb)
+This parser was last tested on TOML version [3f4224ecdc4a65fdd28b4fb70d46f4c0bd3700aa](https://github.com/mojombo/toml/tree/00f11b019406531c8c7989846b1c1a54e9b8d8bb)
 
 Usage
 -----
@@ -68,6 +68,7 @@ section, _ := doc.GetSection("owner")
 fmt.Println(section)
 
 // Get title
+
 value, _ = doc.GetValue("title")
 fmt.Println(value.AsString())
 ```
