@@ -5,6 +5,8 @@ An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml).
 
 This parser was last tested on TOML version [3f4224ecdc4a65fdd28b4fb70d46f4c0bd3700aa](https://github.com/mojombo/toml/tree/00f11b019406531c8c7989846b1c1a54e9b8d8bb)
 
+It correctly parses both the [example.toml]https://github.com/mojombo/toml/blob/master/tests/example.toml) and [hard_example.toml](https://github.com/mojombo/toml/blob/master/tests/hard_example.toml) files of the official Toml repository.
+
 Usage
 -----
 
