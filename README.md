@@ -22,6 +22,28 @@ doc := parser.ParseFile("example.toml")
 // Or parse a string directly:
 // doc := parser.Parse(someTomlString)
 
+// ==================================================
+// Get some values:
+// ==================================================
+
+fmt.Println(doc.GetString("servers.beta.ip"))
+fmt.Println(doc.GetArray("clients.data"))
+fmt.Println(doc.GetInt("doesntexist", 123)) // Optionally, a default value can be provided
+fmt.Println(doc.GetString("doesntexisteither", "some default"))
+fmt.Println(doc.GetFloat("floats.pi"))
+fmt.Println(doc.GetBool("database.enabled"))
+fmt.Println(doc.GetDate("owner.dob"))
+```
+
+Advanced usage
+--------------
+
+```
+// ==================================================
+// The GetValue() / As<Type>() pattern provides a bit
+// more flexibility but is more verbose
+// ==================================================
+
 var value toml.Value
 var ok bool
 

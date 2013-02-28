@@ -25,6 +25,7 @@ func main() {
 	fmt.Println(doc.GetString("servers.beta.ip"))
 	fmt.Println(doc.GetArray("clients.data"))
 	fmt.Println(doc.GetInt("doesntexist", 123)) // Optionally, a default value can be provided
+	fmt.Println(doc.GetString("doesntexisteither", "some default"))
 	fmt.Println(doc.GetFloat("floats.pi"))
 	fmt.Println(doc.GetBool("database.enabled"))
 	fmt.Println(doc.GetDate("owner.dob"))
