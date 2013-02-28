@@ -44,7 +44,43 @@
 				
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetArray">func (this Document) GetArray(name string, defaultValue ...[]Value) []Value</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetBool">func (this Document) GetBool(name string, defaultValue ...bool) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetDate">func (this Document) GetDate(name string, defaultValue ...time.Time) time.Time</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetFloat">func (this Document) GetFloat(name string, defaultValue ...float64) float64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetFloat32">func (this Document) GetFloat32(name string, defaultValue ...float32) float32</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetFloat64">func (this Document) GetFloat64(name string, defaultValue ...float64) float64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetInt">func (this Document) GetInt(name string, defaultValue ...int) int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetInt16">func (this Document) GetInt16(name string, defaultValue ...int16) int16</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetInt32">func (this Document) GetInt32(name string, defaultValue ...int32) int32</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetInt64">func (this Document) GetInt64(name string, defaultValue ...int64) int64</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetInt8">func (this Document) GetInt8(name string, defaultValue ...int8) int8</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#Document.GetSection">func (this Document) GetSection(path string) (*Node, bool)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Document.GetString">func (this Document) GetString(name string, defaultValue ...string) string</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Document.GetValue">func (this Document) GetValue(path string) (Value, bool)</a></dd>
@@ -109,6 +145,12 @@
 					<dd>&nbsp; &nbsp; <a href="#Value.AsFloat">func (this Value) AsFloat() float64</a></dd>
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsFloat32">func (this Value) AsFloat32() float32</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Value.AsFloat64">func (this Value) AsFloat64() float64</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#Value.AsInt">func (this Value) AsInt() int</a></dd>
 				
 					
@@ -140,6 +182,8 @@
 			<p>
 			<span style="font-size:90%">
 			
+				<a href="/target/accessors.go">accessors.go</a>
+			
 				<a href="/target/toml.go">toml.go</a>
 			
 			</span>
@@ -166,7 +210,7 @@
 
 			
 				
-				<h3 id="NewDocument">func <a href="/target/toml.go?s=7680:7707#L384">NewDocument</a></h3>
+				<h3 id="NewDocument">func <a href="/target/toml.go?s=7874:7901#L394">NewDocument</a></h3>
 				<pre>func NewDocument() Document</pre>
 				
 				
@@ -174,21 +218,105 @@
 
 			
 				
-				<h3 id="Document.GetSection">func (Document) <a href="/target/toml.go?s=9031:9089#L442">GetSection</a></h3>
+				<h3 id="Document.GetArray">func (Document) <a href="/target/accessors.go?s=34:108#L1">GetArray</a></h3>
+				<pre>func (this Document) GetArray(name string, defaultValue ...[]Value) []Value</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetBool">func (Document) <a href="/target/accessors.go?s=2292:2359#L117">GetBool</a></h3>
+				<pre>func (this Document) GetBool(name string, defaultValue ...bool) bool</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetDate">func (Document) <a href="/target/accessors.go?s=2514:2591#L129">GetDate</a></h3>
+				<pre>func (this Document) GetDate(name string, defaultValue ...time.Time) time.Time</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetFloat">func (Document) <a href="/target/accessors.go?s=1600:1674#L81">GetFloat</a></h3>
+				<pre>func (this Document) GetFloat(name string, defaultValue ...float64) float64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetFloat32">func (Document) <a href="/target/accessors.go?s=1828:1904#L93">GetFloat32</a></h3>
+				<pre>func (this Document) GetFloat32(name string, defaultValue ...float32) float32</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetFloat64">func (Document) <a href="/target/accessors.go?s=2060:2136#L105">GetFloat64</a></h3>
+				<pre>func (this Document) GetFloat64(name string, defaultValue ...float64) float64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetInt">func (Document) <a href="/target/accessors.go?s=502:566#L21">GetInt</a></h3>
+				<pre>func (this Document) GetInt(name string, defaultValue ...int) int</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetInt16">func (Document) <a href="/target/accessors.go?s=934:1004#L45">GetInt16</a></h3>
+				<pre>func (this Document) GetInt16(name string, defaultValue ...int16) int16</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetInt32">func (Document) <a href="/target/accessors.go?s=1156:1226#L57">GetInt32</a></h3>
+				<pre>func (this Document) GetInt32(name string, defaultValue ...int32) int32</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetInt64">func (Document) <a href="/target/accessors.go?s=1378:1448#L69">GetInt64</a></h3>
+				<pre>func (this Document) GetInt64(name string, defaultValue ...int64) int64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetInt8">func (Document) <a href="/target/accessors.go?s=716:783#L33">GetInt8</a></h3>
+				<pre>func (this Document) GetInt8(name string, defaultValue ...int8) int8</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetSection">func (Document) <a href="/target/toml.go?s=9225:9283#L452">GetSection</a></h3>
 				<pre>func (this Document) GetSection(path string) (*Node, bool)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Document.GetValue">func (Document) <a href="/target/toml.go?s=9135:9191#L446">GetValue</a></h3>
+				<h3 id="Document.GetString">func (Document) <a href="/target/accessors.go?s=275:348#L9">GetString</a></h3>
+				<pre>func (this Document) GetString(name string, defaultValue ...string) string</pre>
+				
+				
+				
+			
+				
+				<h3 id="Document.GetValue">func (Document) <a href="/target/toml.go?s=9329:9385#L456">GetValue</a></h3>
 				<pre>func (this Document) GetValue(path string) (Value, bool)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Document.String">func (Document) <a href="/target/toml.go?s=7485:7521#L373">String</a></h3>
+				<h3 id="Document.String">func (Document) <a href="/target/toml.go?s=7679:7715#L383">String</a></h3>
 				<pre>func (this Document) String() string</pre>
 				
 				
@@ -227,7 +355,7 @@
 
 			
 				
-				<h3 id="NewNodePointer">func <a href="/target/toml.go?s=7558:7585#L377">NewNodePointer</a></h3>
+				<h3 id="NewNodePointer">func <a href="/target/toml.go?s=7752:7779#L387">NewNodePointer</a></h3>
 				<pre>func NewNodePointer() *Node</pre>
 				
 				
@@ -235,35 +363,35 @@
 
 			
 				
-				<h3 id="Node.FullName">func (*Node) <a href="/target/toml.go?s=7246:7281#L362">FullName</a></h3>
+				<h3 id="Node.FullName">func (*Node) <a href="/target/toml.go?s=7440:7475#L372">FullName</a></h3>
 				<pre>func (this *Node) FullName() string</pre>
 				
 				
 				
 			
 				
-				<h3 id="Node.GetSection">func (*Node) <a href="/target/toml.go?s=8159:8214#L405">GetSection</a></h3>
+				<h3 id="Node.GetSection">func (*Node) <a href="/target/toml.go?s=8353:8408#L415">GetSection</a></h3>
 				<pre>func (this *Node) GetSection(path string) (*Node, bool)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Node.GetValue">func (*Node) <a href="/target/toml.go?s=8601:8654#L427">GetValue</a></h3>
+				<h3 id="Node.GetValue">func (*Node) <a href="/target/toml.go?s=8795:8848#L437">GetValue</a></h3>
 				<pre>func (this *Node) GetValue(path string) (Value, bool)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Node.HasChildren">func (*Node) <a href="/target/toml.go?s=5680:5716#L303">HasChildren</a></h3>
+				<h3 id="Node.HasChildren">func (*Node) <a href="/target/toml.go?s=5874:5910#L313">HasChildren</a></h3>
 				<pre>func (this *Node) HasChildren() bool</pre>
 				
 				
 				
 			
 				
-				<h3 id="Node.String">func (*Node) <a href="/target/toml.go?s=6697:6730#L334">String</a></h3>
+				<h3 id="Node.String">func (*Node) <a href="/target/toml.go?s=6891:6924#L344">String</a></h3>
 				<pre>func (this *Node) String() string</pre>
 				
 				
@@ -287,14 +415,14 @@
 
 			
 				
-				<h3 id="Parser.Parse">func (Parser) <a href="/target/toml.go?s=9234:9286#L450">Parse</a></h3>
+				<h3 id="Parser.Parse">func (Parser) <a href="/target/toml.go?s=9428:9480#L460">Parse</a></h3>
 				<pre>func (this Parser) Parse(tomlString string) Document</pre>
 				
 				
 				
 			
 				
-				<h3 id="Parser.ParseFile">func (Parser) <a href="/target/toml.go?s=10667:10725#L515">ParseFile</a></h3>
+				<h3 id="Parser.ParseFile">func (Parser) <a href="/target/toml.go?s=10861:10919#L525">ParseFile</a></h3>
 				<pre>func (this Parser) ParseFile(tomlFilePath string) Document</pre>
 				
 				
@@ -319,77 +447,91 @@
 
 			
 				
-				<h3 id="Value.AsArray">func (Value) <a href="/target/toml.go?s=4611:4646#L246">AsArray</a></h3>
+				<h3 id="Value.AsArray">func (Value) <a href="/target/toml.go?s=4660:4695#L248">AsArray</a></h3>
 				<pre>func (this Value) AsArray() []Value</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsBool">func (Value) <a href="/target/toml.go?s=5139:5170#L278">AsBool</a></h3>
+				<h3 id="Value.AsBool">func (Value) <a href="/target/toml.go?s=5333:5364#L288">AsBool</a></h3>
 				<pre>func (this Value) AsBool() bool</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsDate">func (Value) <a href="/target/toml.go?s=5201:5237#L282">AsDate</a></h3>
+				<h3 id="Value.AsDate">func (Value) <a href="/target/toml.go?s=5395:5431#L292">AsDate</a></h3>
 				<pre>func (this Value) AsDate() time.Time</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsFloat">func (Value) <a href="/target/toml.go?s=5073:5108#L274">AsFloat</a></h3>
+				<h3 id="Value.AsFloat">func (Value) <a href="/target/toml.go?s=5122:5157#L276">AsFloat</a></h3>
 				<pre>func (this Value) AsFloat() float64</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsInt">func (Value) <a href="/target/toml.go?s=4744:4773#L254">AsInt</a></h3>
+				<h3 id="Value.AsFloat32">func (Value) <a href="/target/toml.go?s=5188:5225#L280">AsFloat32</a></h3>
+				<pre>func (this Value) AsFloat32() float32</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsFloat64">func (Value) <a href="/target/toml.go?s=5265:5302#L284">AsFloat64</a></h3>
+				<pre>func (this Value) AsFloat64() float64</pre>
+				
+				
+				
+			
+				
+				<h3 id="Value.AsInt">func (Value) <a href="/target/toml.go?s=4793:4822#L256">AsInt</a></h3>
 				<pre>func (this Value) AsInt() int</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsInt16">func (Value) <a href="/target/toml.go?s=4873:4906#L262">AsInt16</a></h3>
+				<h3 id="Value.AsInt16">func (Value) <a href="/target/toml.go?s=4922:4955#L264">AsInt16</a></h3>
 				<pre>func (this Value) AsInt16() int16</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsInt32">func (Value) <a href="/target/toml.go?s=4942:4975#L266">AsInt32</a></h3>
+				<h3 id="Value.AsInt32">func (Value) <a href="/target/toml.go?s=4991:5024#L268">AsInt32</a></h3>
 				<pre>func (this Value) AsInt32() int32</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsInt64">func (Value) <a href="/target/toml.go?s=5011:5044#L270">AsInt64</a></h3>
+				<h3 id="Value.AsInt64">func (Value) <a href="/target/toml.go?s=5060:5093#L272">AsInt64</a></h3>
 				<pre>func (this Value) AsInt64() int64</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsInt8">func (Value) <a href="/target/toml.go?s=4807:4838#L258">AsInt8</a></h3>
+				<h3 id="Value.AsInt8">func (Value) <a href="/target/toml.go?s=4856:4887#L260">AsInt8</a></h3>
 				<pre>func (this Value) AsInt8() int8</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.AsString">func (Value) <a href="/target/toml.go?s=4677:4712#L250">AsString</a></h3>
+				<h3 id="Value.AsString">func (Value) <a href="/target/toml.go?s=4726:4761#L252">AsString</a></h3>
 				<pre>func (this Value) AsString() string</pre>
 				
 				
 				
 			
 				
-				<h3 id="Value.String">func (Value) <a href="/target/toml.go?s=5755:5788#L307">String</a></h3>
+				<h3 id="Value.String">func (Value) <a href="/target/toml.go?s=5949:5982#L317">String</a></h3>
 				<pre>func (this Value) String() string</pre>
 				
 				

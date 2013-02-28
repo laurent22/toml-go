@@ -1,7 +1,7 @@
 TOML-GO
 =======
 
-An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml). For simplicity, everything is currently contained in `toml.go`.
+An easy-to-use Go parser for the [Toml format](https://github.com/mojombo/toml).
 
 This parser was last tested on TOML version [3f4224ecdc4a65fdd28b4fb70d46f4c0bd3700aa](https://github.com/mojombo/toml/tree/00f11b019406531c8c7989846b1c1a54e9b8d8bb)
 
@@ -10,7 +10,7 @@ It correctly parses both the [example.toml](https://github.com/mojombo/toml/blob
 Usage
 -----
 
-See [main.go](main.go) for some examples or [apidoc.html](apidoc.html) for the full public API. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `As` accessors (eg. `AsArray()`, `AsInt()`, etc.).
+See [main.go](main.go) for some examples or [apidoc.html](apidoc.html) for the full public API. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `Get` accessors (eg. `GetString()`, `GetInt()`, etc.). You can also provide an optional default value to any of these accessors.
 
 ```go
 // Create a Toml parser
