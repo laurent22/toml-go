@@ -38,7 +38,7 @@ fmt.Println(doc.GetDate("owner.dob"))
 Advanced usage
 --------------
 
-```
+```go
 // ==================================================
 // The GetValue() / As<Type>() pattern provides a bit
 // more flexibility but is more verbose
