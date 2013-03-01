@@ -10,7 +10,7 @@ It correctly parses both the [example.toml](https://github.com/mojombo/toml/blob
 Usage
 -----
 
-See [main.go](main.go) for some examples or [apidoc.html](apidoc.html) for the full public API. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `Get` accessors (eg. `GetString()`, `GetInt()`, etc.). You can also provide an optional default value to any of these accessors.
+See [main.go](main.go) for some examples or the [API doc](http://godoc.org/github.com/laurent22/toml-go/toml) for the full public API. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `Get` accessors (eg. `GetString()`, `GetInt()`, etc.). You can also provide an optional default value to any of these accessors.
 
 ```go
 var parser toml.Parser
