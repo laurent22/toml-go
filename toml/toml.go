@@ -309,7 +309,7 @@ func (this *Node) createChildren() {
 }
 
 func (this *Node) child(name string) (*Node, bool) {
-	if !this.HasChildren() { return nil, false }
+	if !this.hasChildren() { return nil, false }
 	node, ok := this.children[name]
 	return node, ok
 }
@@ -320,7 +320,7 @@ func (this *Node) setChild(name string, node *Node) {
 	node.parent = this
 }
 
-func (this *Node) HasChildren() bool {
+func (this *Node) hasChildren() bool {
 	return this.children != nil
 }
 
@@ -354,7 +354,7 @@ func (this Value) String() string {
 func (this *Node) String() string {
 	output := ""
 		
-	if (this.kind == kindRoot && this.HasChildren()) {
+	if (this.kind == kindRoot && this.hasChildren()) {
 		for _, node := range this.children {
 			output += node.String()
 			output += "\n"
@@ -364,7 +364,7 @@ func (this *Node) String() string {
 	if (this.kind == kindSection) {
 		output += "[" + this.FullName() + "]"
 		output += "\n"
-		if (this.HasChildren()) {
+		if (this.hasChildren()) {
 			for _, node := range this.children {
 				output += node.String()
 			}
@@ -394,16 +394,16 @@ func (this Document) String() string {
 	return this.root.String()
 }
 
-func NewNodePointer() *Node {
+func newNodePointer() *Node {
 	output := new(Node) 
 	output.children = nil
 	output.parent = nil
 	return output;
 }
 
-func NewDocument() Document {
+func newDocument() Document {
 	var output Document
-	output.root = NewNodePointer()
+	output.root = newNodePointer()
 	output.root.kind = kindRoot
 	return output;
 }
@@ -470,7 +470,7 @@ func (this Document) GetValue(path string) (Value, bool) {
 func (this Parser) Parse(tomlString string) Document {
 	_ = fmt.Println
 	
-	output := NewDocument()
+	output := newDocument()
 	
 	var currentValue *Node
 	currentValue = nil 
@@ -495,7 +495,7 @@ func (this Parser) Parse(tomlString string) Document {
 				name := names[j]
 				node, ok := current.child(name)
 				if !ok {
-					section := NewNodePointer()
+					section := newNodePointer()
 					section.name = name
 					section.kind = kindSection
 					current.setChild(name, section)
@@ -518,7 +518,7 @@ func (this Parser) Parse(tomlString string) Document {
 				panic("Invalid value: " + line)
 			}
 		} else {
-			node := NewNodePointer()
+			node := newNodePointer()
 			node.name = key
 			node.value.raw = cleanRawValue(line[index + 1:len(line)])
 			node.kind = kindValue
