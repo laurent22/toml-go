@@ -13,10 +13,7 @@ Usage
 See [main.go](main.go) for some examples or [apidoc.html](apidoc.html) for the full public API. Basically, you create a parser and give it a file or string to parse. You can then access the values using the `Get` accessors (eg. `GetString()`, `GetInt()`, etc.). You can also provide an optional default value to any of these accessors.
 
 ```go
-// Create a Toml parser
 var parser toml.Parser
-
-// Parse a file
 doc := parser.ParseFile("example.toml")
 
 // Or parse a string directly:
@@ -91,7 +88,7 @@ fmt.Println(value.AsDate())
 section, _ := doc.GetSection("owner")
 fmt.Println(section)
 
-// Get title
+// Get the title
 
 value, _ = doc.GetValue("title")
 fmt.Println(value.AsString())

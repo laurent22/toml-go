@@ -1,3 +1,5 @@
+// A Go parser library for the [Toml format](https://github.com/mojombo/toml).
+
 package toml
 
 import (
