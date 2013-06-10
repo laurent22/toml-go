@@ -210,8 +210,9 @@ func parseString(s string) (string, int, bool) {
 	escape := false
 	output := ""
 	state := 0 // 0 = left, 1 = inside
-	for i := 0; i < len(s); i++ {
-		c := s[i]
+	i := -1
+	for _, c := range s {
+		i++
 		
 		if state == 0 {
 			if c != '"' { return "", 0, false }

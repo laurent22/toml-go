@@ -5,7 +5,8 @@
 # This part you'll really hate
 
 [the]
-test_string = "You'll hate me after this - #"          # " Annoying, isn't it?
+test_string = "You'll hate me after this - #"          # " Annoying, isn't it?*
+zhong_guo = "中国"
 
     [the.hard]
     test_array = [ "] ", " # "]      # ] There you go, parse this!

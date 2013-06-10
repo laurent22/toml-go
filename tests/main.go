@@ -156,4 +156,6 @@ func main() {
 	assertTrue("Is valid", ok)
 	assertIntEqual("Array size is correct", len(v.AsArray()), 1)
 	assertStringEqual("Array[0] is correct", v.AsArray()[0].AsString(), "]")
+	
+	assertStringEqual("Strings are UTF-8", "中国", doc.GetString("the.zhong_guo"))
 }
