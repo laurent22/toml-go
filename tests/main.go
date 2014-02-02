@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../toml"
+	toml ".."
 	"fmt"
 	"strconv"
 	"time"
