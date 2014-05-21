@@ -32,7 +32,7 @@ type Node struct {
 	name string
 	value Value
 	kind Kind
-	children map[string]*Node
+	Children map[string]*Node
 	parent *Node
 }
 
@@ -307,24 +307,24 @@ func (this Value) AsDate() time.Time {
 }
 
 func (this *Node) createChildren() {
-	if this.children != nil { return }
-	this.children = make(map[string]*Node)
+	if this.Children != nil { return }
+	this.Children = make(map[string]*Node)
 }
 
 func (this *Node) child(name string) (*Node, bool) {
 	if !this.hasChildren() { return nil, false }
-	node, ok := this.children[name]
+	node, ok := this.Children[name]
 	return node, ok
 }
 
 func (this *Node) setChild(name string, node *Node) {
 	this.createChildren()
-	this.children[name] = node
+	this.Children[name] = node
 	node.parent = this
 }
 
 func (this *Node) hasChildren() bool {
-	return this.children != nil
+	return this.Children != nil
 }
 
 func (this Value) String() string {
@@ -358,7 +358,7 @@ func (this *Node) String() string {
 	output := ""
 		
 	if (this.kind == kindRoot && this.hasChildren()) {
-		for _, node := range this.children {
+		for _, node := range this.Children {
 			output += node.String()
 			output += "\n"
 		}
@@ -368,7 +368,7 @@ func (this *Node) String() string {
 		output += "[" + this.FullName() + "]"
 		output += "\n"
 		if (this.hasChildren()) {
-			for _, node := range this.children {
+			for _, node := range this.Children {
 				output += node.String()
 			}
 		}
@@ -399,7 +399,7 @@ func (this Document) String() string {
 
 func newNodePointer() *Node {
 	output := new(Node) 
-	output.children = nil
+	output.Children = nil
 	output.parent = nil
 	return output;
 }
@@ -420,7 +420,7 @@ func (this Parser) parseKey(line string) (string, int) {
 func (this *Node) loadValues() {
 	this.value, _, _ = parseValue(this.value.raw)
 	
-	for _, node := range this.children {
+	for _, node := range this.Children {
 		node.loadValues()
 	}
 }
@@ -431,7 +431,7 @@ func (this *Node) GetSection(path string) (*Node, bool) {
 	nameIndex := 0
 	
 	for {
-		for _, node := range current.children {
+		for _, node := range current.Children {
 			 if node.kind != kindSection { continue } 
 			 if node.name == names[nameIndex] {
 			 	current = node
