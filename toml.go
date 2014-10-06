@@ -3,6 +3,7 @@
 package toml
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"strconv"
@@ -287,6 +288,10 @@ func (this Value) AsArray() []Value {
 	return this.asArray
 }
 
+func (this Value) AsRaw() string {
+	return this.raw
+}
+
 func (this Value) AsString() string {
 	return this.asString
 }
@@ -438,7 +443,7 @@ func (this *Node) FullName() string {
 	return output
 }
 
-func (this Document) String() string {
+func (this *Document) String() string {
 	return this.root.String()
 }
 
@@ -449,8 +454,8 @@ func newNodePointer() *Node {
 	return output
 }
 
-func newDocument() Document {
-	var output Document
+func newDocument() *Document {
+	output := &Document{}
 	output.root = newNodePointer()
 	output.root.kind = kindRoot
 	return output
@@ -521,7 +526,7 @@ func (this Document) GetValue(path string) (Value, bool) {
 	return this.root.GetValue(path)
 }
 
-func (this Parser) Parse(tomlString string) Document {
+func (this Parser) Parse(tomlString string) (*Document, error) {
 	_ = fmt.Println
 
 	output := newDocument()
@@ -573,7 +578,7 @@ func (this Parser) Parse(tomlString string) Document {
 			if currentValue != nil {
 				currentValue.value.raw += line
 			} else {
-				panic("Invalid value: " + line)
+				return nil, errors.New("Invalid value: " + line)
 			}
 		} else {
 			node := newNodePointer()
@@ -587,13 +592,13 @@ func (this Parser) Parse(tomlString string) Document {
 
 	output.root.loadValues()
 
-	return output
+	return output, nil
 }
 
-func (this Parser) ParseFile(tomlFilePath string) Document {
+func (this Parser) ParseFile(tomlFilePath string) (*Document, error) {
 	content, err := ioutil.ReadFile(tomlFilePath)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	return this.Parse(string(content))
 }
